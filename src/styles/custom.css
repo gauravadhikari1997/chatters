@@ -1,0 +1,19 @@
+#root .navbar {
+  justify-content: center;
+}
+
+#root .navbar-brand:hover {
+  transform: scale(1.2);
+  transition: 1s;
+  color: #a88905;
+}
+
+#root .btn-primary {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  float: right;
+}
+
+#root .join-room-form {
+  padding-top: 1rem;
+}
