@@ -16,7 +16,6 @@ const Users: React.FC<UsersProps> = ({ users }) => {
           <div className="card border-success">
             <div className="card-body">
               <h5 className="card-title text-secondary">{user.username}</h5>
-              {/* <p className="card-text">{user.status}</p> */}
             </div>
           </div>
         </div>

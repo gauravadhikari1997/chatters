@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router";
@@ -19,6 +19,7 @@ interface IMessage {
 
 const ChatRoom: React.FC<ChatRoomProps> = ({ username, room, joinData }) => {
   const history = useHistory();
+  const chatLog = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [message, setMessage] = useState("");
@@ -37,6 +38,12 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ username, room, joinData }) => {
 
     return () => socket.disconnect();
   }, [history, joinData]);
+
+  useEffect(() => {
+    if (chatLog.current) {
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  }, [messages]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
@@ -67,20 +74,25 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ username, room, joinData }) => {
     <div>
       <ChatNavBar username={username} room={room} />
       <Users users={users} />
-      <Messages messages={messages} username={username} />
-      <Form className="join-room-form" onSubmit={handleClick}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Control
-            type="text"
-            placeholder="Type your message"
-            value={message}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+      <div ref={chatLog}>
+        <Messages messages={messages} username={username} />
+        <Form className="join-room-form" onSubmit={handleClick}>
+          <Form.Group
+            style={{ display: "flex", alignItems: "baseline" }}
+            controlId="formBasicEmail"
+          >
+            <Form.Control
+              type="text"
+              placeholder="Type your message"
+              value={message}
+              onChange={handleChange}
+            />
+            <Button variant="primary" type="submit">
+              Send
+            </Button>
+          </Form.Group>
+        </Form>
+      </div>
     </div>
   );
 };
